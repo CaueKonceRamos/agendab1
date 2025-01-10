@@ -1,13 +1,192 @@
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda de Atendimento - Escritório de Advocacia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-900 text-white font-roboto">
-    <!-- Conteúdo do body permanece o mesmo -->
-    <script src="scripts.js"></script>
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 h-screen shadow-md">
+            <div class="p-4">
+                <h2 class="text-xl font-bold mb-4">Menu</h2>
+                <ul class="space-y-2">
+                    <li><a href="#" class="block text-gray-300 hover:bg-gray-700 p-2 rounded">Home</a></li>
+                    <li><a href="#" class="block text-gray-300 hover:bg-gray-700 p-2 rounded">Agenda</a></li>
+                    <li><a href="#" class="block text-gray-300 hover:bg-gray-700 p-2 rounded">INDISPONÍVEL MOMENTANEAMENTE</a></li>
+                    <li><a href="#" class="block text-gray-300 hover:bg-gray-700 p-2 rounded">INDISPONÍVEL MOMENTANEAMENTE</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-4">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold">Agenda de Atendimento</h1>
+                <button id="addClientButton" class="bg-blue-500 text-white px-4 py-2 rounded-md"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div id="addAppointmentFormContainer" class="hidden bg-gray-800 p-4 rounded shadow-md mb-4">
+                <h2 class="text-xl font-semibold mb-2">Adicionar Atendimento</h2>
+                <form id="addAppointmentForm" class="space-y-4">
+                    <div>
+                        <label for="clientName" class="block text-sm font-medium text-gray-300">Nome do Cliente</label>
+                        <input type="text" id="clientName" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                    </div>
+                    <div>
+                        <label for="cpf" class="block text-sm font-medium text-gray-300">CPF</label>
+                        <input type="text" id="cpf" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                    </div>
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-300">Data</label>
+                        <input type="date" id="date" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                    </div>
+                    <div>
+                        <label for="time" class="block text-sm font-medium text-gray-300">Hora do Atendimento</label>
+                        <input type="time" id="time" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-300">Número do Telefone</label>
+                        <input type="text" id="phone" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                    </div>
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-300">Cidade</label>
+                        <select id="city" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                            <option value="Salvador">Salvador</option>
+                            <option value="SAJ">SAJ</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <input type="text" id="otherCity" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white hidden" placeholder="Digite o nome da cidade">
+                    </div>
+                    <div>
+                        <label for="attorney" class="block text-sm font-medium text-gray-300">Atendimento por</label>
+                        <select id="attorney" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                            <option value="Dr. Reinan">Dr. Reinan</option>
+                            <option value="Dra. Thaise">Dra. Thaise</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="createdBy" class="block text-sm font-medium text-gray-300">Atendimento criado por</label>
+                        <select id="createdBy" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white" required>
+                            <option value="Caue">Caue</option>
+                            <option value="Cleide">Cleide</option>
+                            <option value="Ronaldo">Ronaldo</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <input type="text" id="otherCreatedBy" class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm p-2 bg-gray-700 text-white hidden" placeholder="Digite o nome do criador">
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Adicionar</button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="appointmentsList">
+                <!-- Example of an appointment item -->
+                <div class="bg-gray-800 p-4 border border-gray-600 rounded-md shadow-md">
+                    <div>
+                        <p class="font-semibold">Nome do Cliente: João Silva</p>
+                        <p>CPF: 123.456.789-00</p>
+                        <p>Data: 2023-10-01</p>
+                        <p>Hora: 14:00</p>
+                        <p>Telefone: (11) 98765-4321</p>
+                        <p>Cidade: Salvador</p>
+                        <p>Atendimento por: Dr. Reinan</p>
+                        <p>Atendimento criado por: Caue</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <a href="https://wa.me/5511987654321" target="_blank" class="text-green-500"><i class="fab fa-whatsapp fa-2x"></i></a>
+                        <a href="https://meet.google.com/" target="_blank" class="text-blue-500"><i class="fas fa-video fa-2x"></i></a>
+                        <button class="text-red-500 delete-button"><i class="fas fa-trash fa-2x"></i></button>
+                    </div>
+                </div>
+                <!-- Repeat for each appointment -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-center py-4 mt-4 shadow-md">
+        <p class="text-gray-300">POWERED BY: CRM ETERNAL</p>
+    </footer>
+
+    <script>
+        document.getElementById('addClientButton').addEventListener('click', function() {
+            const formContainer = document.getElementById('addAppointmentFormContainer');
+            formContainer.classList.toggle('hidden');
+        });
+
+        document.getElementById('city').addEventListener('change', function() {
+            const otherCityInput = document.getElementById('otherCity');
+            if (this.value === 'Outro') {
+                otherCityInput.classList.remove('hidden');
+                otherCityInput.setAttribute('required', 'required');
+            } else {
+                otherCityInput.classList.add('hidden');
+                otherCityInput.removeAttribute('required');
+            }
+        });
+
+        document.getElementById('createdBy').addEventListener('change', function() {
+            const otherCreatedByInput = document.getElementById('otherCreatedBy');
+            if (this.value === 'Outro') {
+                otherCreatedByInput.classList.remove('hidden');
+                otherCreatedByInput.setAttribute('required', 'required');
+            } else {
+                otherCreatedByInput.classList.add('hidden');
+                otherCreatedByInput.removeAttribute('required');
+            }
+        });
+
+        document.getElementById('addAppointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const clientName = document.getElementById('clientName').value;
+            const cpf = document.getElementById('cpf').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value === 'Outro' ? document.getElementById('otherCity').value : document.getElementById('city').value;
+            const attorney = document.getElementById('attorney').value;
+            const createdBy = document.getElementById('createdBy').value === 'Outro' ? document.getElementById('otherCreatedBy').value : document.getElementById('createdBy').value;
+
+            const appointmentItem = document.createElement('div');
+            appointmentItem.classList.add('bg-gray-800', 'p-4', 'border', 'border-gray-600', 'rounded-md', 'shadow-md');
+            appointmentItem.innerHTML = `
+                <div>
+                    <p class="font-semibold">Nome do Cliente: ${clientName}</p>
+                    <p>CPF: ${cpf}</p>
+                    <p>Data: ${date}</p>
+                    <p>Hora: ${time}</p>
+                    <p>Telefone: ${phone}</p>
+                    <p>Cidade: ${city}</p>
+                    <p>Atendimento por: ${attorney}</p>
+                    <p>Atendimento criado por: ${createdBy}</p>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                    <a href="https://wa.me/55${phone.replace(/\D/g, '')}" target="_blank" class="text-green-500"><i class="fab fa-whatsapp fa-2x"></i></a>
+                    <a href="https://meet.google.com/" target="_blank" class="text-blue-500"><i class="fas fa-video fa-2x"></i></a>
+                    <button class="text-red-500 delete-button"><i class="fas fa-trash fa-2x"></i></button>
+                </div>
+            `;
+
+            document.getElementById('appointmentsList').appendChild(appointmentItem);
+
+            // Clear form
+            document.getElementById('addAppointmentForm').reset();
+            document.getElementById('addAppointmentFormContainer').classList.add('hidden');
+
+            // Add delete functionality to the new button
+            appointmentItem.querySelector('.delete-button').addEventListener('click', function() {
+                appointmentItem.remove();
+            });
+        });
+
+        // Add delete functionality to existing buttons
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function() {
+                button.closest('.bg-gray-800').remove();
+            });
+        });
+    </script>
 </body>
+</html>
