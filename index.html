@@ -2,15 +2,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Atendimento - Escritório de Advocacia</title>
+    <title>Agenda de Atendimento - POWERED BY CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white font-roboto">
-    <div class="flex">
+    <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
-        <div class="w-64 bg-gray-800 h-screen shadow-md">
+        <div class="w-full md:w-64 bg-gray-800 h-auto md:h-screen shadow-md md:block hidden" id="sidebar">
             <div class="p-4">
                 <h2 class="text-xl font-bold mb-4">Menu</h2>
                 <ul class="space-y-2">
@@ -20,6 +20,13 @@
                     <li><a href="#" class="block text-gray-300 hover:bg-gray-700 p-2 rounded">INDISPONÍVEL MOMENTANEAMENTE</a></li>
                 </ul>
             </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex justify-end p-4">
+            <button id="mobileMenuButton" class="text-gray-300">
+                <i class="fas fa-ellipsis-v fa-2x"></i>
+            </button>
         </div>
 
         <!-- Main Content -->
@@ -111,6 +118,11 @@
     </footer>
 
     <script>
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        });
+
         document.getElementById('addClientButton').addEventListener('click', function() {
             const formContainer = document.getElementById('addAppointmentFormContainer');
             formContainer.classList.toggle('hidden');
